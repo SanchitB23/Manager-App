@@ -9,7 +9,7 @@ import {
   Button
 } from 'native-base';
 
-import { emailChanged, passwordChanged } from '../actions';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class LoginForm extends Component {
   onEmailChange(text) {
@@ -19,7 +19,10 @@ class LoginForm extends Component {
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
-
+  onButtonPress() {
+    const { email, password } = this.props;
+    this.props.loginUser({ email, password });
+  }
   render() {
     return (
         <Form >
@@ -41,7 +44,9 @@ class LoginForm extends Component {
               value={this.props.password}
             />
           </Item>
-          <Button block style={{ margin: 30 }}><Text>Login</Text></Button>
+          <Button block style={{ margin: 30 }} onPress={this.onButtonPress.bind(this)}>
+            <Text>Login</Text>
+          </Button>
         </Form>
     );
   }
@@ -54,4 +59,4 @@ const mapToStateToProps = state => {
   };
 };
 
-export default connect(mapToStateToProps, { emailChanged, passwordChanged })(LoginForm);
+export default connect(mapToStateToProps, { loginUser, emailChanged, passwordChanged })(LoginForm);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-// import firebase from 'firebase';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 
 import {
   Container
@@ -13,14 +13,6 @@ import { Header } from './components/common';
 
 class App extends Component {
   componentWillMount() {
-    // const config = {
-    //   apiKey: 'AIzaSyD-_h6CybTyGEx47VN2g9OrhMFR-ZdDKEo',
-    //   authDomain: 'managerreactnativeapp.firebaseapp.com',
-    //   databaseURL: 'https://managerreactnativeapp.firebaseio.com',
-    //   projectId: 'managerreactnativeapp',
-    //   storageBucket: 'managerreactnativeapp.appspot.com',
-    //   messagingSenderId: '643912206745'
-    // };
     this.initializeFirebase();
   }
   initializeFirebase() {
@@ -37,8 +29,9 @@ class App extends Component {
     firebase.initializeApp(config);
   }
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={store}>
         <Container>
           <Header headerText='Login Page' />
           <LoginForm />
