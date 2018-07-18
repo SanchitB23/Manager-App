@@ -1,15 +1,17 @@
+// IDEA: Make new Component for SignUp
+
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
+// import {
+//   Container
+// } from 'native-base';
 
-import {
-  Container
-} from 'native-base';
-
+import Router from './Router';
 import reducers from './reducers';
-import LoginForm from './components/LoginForm';
-import { Header } from './components/common';
+// import LoginForm from './components/LoginForm';
+// import { Header } from './components/common';
 
 class App extends Component {
   componentWillMount() {
@@ -32,10 +34,11 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <Container>
-          <Header headerText='Login Page' />
-          <LoginForm />
-        </Container>
+        {/* <Container> */}
+        {/* <Header headerText='Login Page' /> */}
+        {/* <LoginForm /> */}
+        <Router />
+        {/* </Container> */}
       </Provider>
     );
   }

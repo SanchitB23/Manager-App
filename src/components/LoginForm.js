@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View } from 'react-native';
 import {
   Text,
   Form,
   Item,
   Input,
   Label,
-  Button
+  Button,
+  Spinner
 } from 'native-base';
 
 import { emailChanged, passwordChanged, loginUser } from '../actions';
@@ -22,6 +24,32 @@ class LoginForm extends Component {
   onButtonPress() {
     const { email, password } = this.props;
     this.props.loginUser({ email, password });
+  }
+  renderError() {
+    if (this.props.error) {
+      return (
+        <View>
+          <Text
+            style={{
+              alignSelf: 'center',
+              color: 'red'
+            }}
+          >
+            {this.props.error}
+          </Text>
+        </View>
+      );
+    }
+  }
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner />;
+    }
+    return (
+      <Button block style={{ margin: 30 }} onPress={this.onButtonPress.bind(this)}>
+        <Text>Login</Text>
+      </Button>
+    );
   }
   render() {
     return (
@@ -44,18 +72,22 @@ class LoginForm extends Component {
               value={this.props.password}
             />
           </Item>
-          <Button block style={{ margin: 30 }} onPress={this.onButtonPress.bind(this)}>
-            <Text>Login</Text>
-          </Button>
+          {this.renderError()}
+          <View>
+            {this.renderButton()}
+          </View>
         </Form>
     );
   }
 }
 
-const mapToStateToProps = state => {
+const mapToStateToProps = ({ auth }) => {
+  const { email, password, error, loading } = auth;
   return {
-    email: state.auth.email,
-    password: state.auth.password
+    email,
+    password,
+    error,
+    loading
   };
 };
 
