@@ -1,19 +1,45 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+import { connect } from 'react-redux';
 import {
-  View,
-  Text
+  ListView,
 } from 'react-native';
+import ListItem from './ListItem';
+import { employeesFetch } from '../actions';
 
 class EmployeeList extends Component {
+  componentWillMount() {
+    this.props.employeesFetch();
+    this.createDataSource(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.createDataSource(nextProps);
+  }
+  createDataSource({ employees }) {
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    this.DataSource = ds.cloneWithRows(employees);
+  }
+  renderRow(employee) {
+    return <ListItem employee={employee} />;
+  }
   render() {
+    console.log(this.props);
     return (
-      <View>
-        <Text>TEsting,,,....</Text>
-        <Text>TEsting,,,....</Text>
-        <Text>TEsting,,,....</Text>
-        <Text>TEsting,,,....</Text>
-      </View>
+      <ListView
+        enableEmptySections
+        dataSource={this.DataSource}
+        renderRow={this.renderRow}
+      />
     );
   }
 }
-export default EmployeeList;
+const mapStateToProps = state => {
+  // console.log(state);
+  const employees = _.map(state.employee, (val, uid) => {
+    return { ...val, uid };
+  });
+  return { employees };
+};
+export default connect(mapStateToProps, { employeesFetch })(EmployeeList);

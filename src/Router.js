@@ -11,7 +11,8 @@ const RouterComponent = () => {
       <Scene key="auth">
         <Scene key="login" component={LoginForm} title="Please Login" />
       </Scene>
-      <Scene key="main" initial>
+      {/* // FIXME: Remove initial, was put just to avoid login on every test */}
+      <Scene key="main" >
         <Scene
           key="employeeList"
           component={EmployeeList}
