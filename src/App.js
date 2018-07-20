@@ -1,5 +1,6 @@
 // IDEA: Make new Component for SignUp
-
+// TODO: INstall todo earch package
+// TODO: Test Listitem :8
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
